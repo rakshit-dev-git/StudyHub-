@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyHub — your desk, digitized</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="brand-mark">SH</span>
+      <span class="login-brand-word">StudyHub</span>
+    </div>
+
+    <h1 id="loginHeading">Welcome back</h1>
+    <p class="login-sub" id="loginSub">Log in to your desk.</p>
+
+    <form class="login-form" id="loginForm" autocomplete="on">
+      <label class="login-label">
+        Username
+        <input type="text" id="loginUsername" class="text-input" autocomplete="username" required>
+      </label>
+      <label class="login-label">
+        Password
+        <input type="password" id="loginPassword" class="text-input" autocomplete="current-password" required>
+      </label>
+      <label class="login-label" id="confirmWrap" style="display:none">
+        Confirm password
+        <input type="password" id="loginConfirm" class="text-input" autocomplete="new-password">
+      </label>
+
+      <label class="login-remember">
+        <input type="checkbox" id="loginRemember" checked>
+        <span>Keep me signed in on this device</span>
+      </label>
+
+      <p class="login-error" id="loginError"></p>
+
+      <button type="submit" class="btn primary big login-submit" id="loginSubmit">Log in</button>
+    </form>
+
+    <p class="login-toggle">
+      <span id="toggleText">New here?</span>
+      <button type="button" class="link-btn" id="loginToggleBtn">Create an account</button>
+    </p>
+
+    <p class="login-hint">StudyHub has no server — your account and all your data live only in this browser. Forgetting your password means starting fresh.</p>
+  </div>
+</div>
+
+<div class="desk">
+
+  <!-- Tab spine navigation -->
+  <nav class="spine" aria-label="Sections">
+    <div class="spine-brand">
+      <span class="brand-mark">SH</span>
+      <span class="brand-word">Study<br>Hub</span>
+      <label class="theme-toggle theme-toggle--nav" title="Toggle dark mode">
+        <input type="checkbox" class="theme-toggle-input">
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb">
+            <svg class="ttog-icon ttog-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.2" y1="4.2" x2="5.6" y2="5.6"></line><line x1="18.4" y1="18.4" x2="19.8" y2="19.8"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.2" y1="19.8" x2="5.6" y2="18.4"></line><line x1="18.4" y1="5.6" x2="19.8" y2="4.2"></line></svg>
+            <svg class="ttog-icon ttog-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg>
+          </span>
+        </span>
+      </label>
+    </div>
+    <button class="tab" data-tab="dashboard" data-color="teal">
+      <span class="tab-index">I</span><span class="tab-label">Dashboard</span>
+    </button>
+    <button class="tab" data-tab="files" data-color="amber">
+      <span class="tab-index">II</span><span class="tab-label">Files</span>
+    </button>
+    <button class="tab" data-tab="tasks" data-color="coral">
+      <span class="tab-index">III</span><span class="tab-label">Tasks</span>
+    </button>
+    <button class="tab" data-tab="timetable" data-color="teal">
+      <span class="tab-index">IV</span><span class="tab-label">Timetable</span>
+    </button>
+    <button class="tab" data-tab="timer" data-color="amber">
+      <span class="tab-index">V</span><span class="tab-label">Focus Timer</span>
+    </button>
+    <button class="tab" data-tab="todo" data-color="coral">
+      <span class="tab-index">VI</span><span class="tab-label">To-do</span>
+    </button>
+
+    <div class="spine-footer">
+      <span class="spine-user" id="spineUser"></span>
+      <button class="logout-btn" id="logoutBtn" type="button">Log out</button>
+    </div>
+  </nav>
+
+  <!-- Page content -->
+  <main class="page">
+
+    <!-- DASHBOARD -->
+    <section class="sheet active" id="dashboard">
+      <header class="sheet-head">
+        <p class="eyebrow">Today, <span id="todayDate"></span></p>
+        <h1>Your desk at a glance</h1>
+      </header>
+      <div class="stat-row">
+        <div class="stat-card teal">
+          <span class="stat-num" id="statFiles">0</span>
+          <span class="stat-label">files stored</span>
+        </div>
+        <div class="stat-card coral">
+          <span class="stat-num" id="statTasks">0</span>
+          <span class="stat-label">tasks open</span>
+        </div>
+        <div class="stat-card amber">
+          <span class="stat-num" id="statTodo">0</span>
+          <span class="stat-label">to-dos left</span>
+        </div>
+        <div class="stat-card ink">
+          <span class="stat-num" id="statSessions">0</span>
+          <span class="stat-label">focus sessions today</span>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="card">
+          <h2>Due soon</h2>
+          <ul class="mini-list" id="dueSoonList"></ul>
+        </div>
+        <div class="card">
+          <h2>Today's schedule</h2>
+          <ul class="mini-list" id="todaySchedule"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILES -->
+    <section class="sheet" id="files">
+      <header class="sheet-head">
+        <p class="eyebrow">II — Archive</p>
+        <h1>Files & materials</h1>
+      </header>
+
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" multiple hidden>
+        <p><strong>Drop files here</strong> or <button class="link-btn" id="browseBtn">browse your device</button></p>
+        <p class="hint">PDFs, docs, images — stored right in this browser.</p>
+      </div>
+
+      <div class="filter-row">
+        <input type="search" id="fileSearch" placeholder="Search files…" class="text-input">
+        <select id="fileTypeFilter" class="text-input select-input">
+          <option value="all">All types</option>
+          <option value="pdf">PDF</option>
+          <option value="image">Images</option>
+          <option value="doc">Documents</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="file-grid" id="fileGrid"></div>
+      <p class="empty-state" id="fileEmpty">Your archive is empty. Drop in your first file above.</p>
+    </section>
+
+    <!-- TASKS -->
+    <section class="sheet" id="tasks">
+      <header class="sheet-head">
+        <p class="eyebrow">III — Assignments</p>
+        <h1>Tasks & deadlines</h1>
+      </header>
+
+      <form class="inline-form" id="taskForm">
+        <input type="text" id="taskTitle" class="text-input" placeholder="Task, e.g. Physics problem set 4" required>
+        <input type="text" id="taskSubject" class="text-input" placeholder="Subject" style="max-width:160px">
+        <input type="date" id="taskDue" class="text-input" style="max-width:170px">
+        <select id="taskPriority" class="text-input select-input" style="max-width:130px">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button type="submit" class="btn primary">Add task</button>
+      </form>
+
+      <div class="filter-row">
+        <div class="seg" id="taskFilterSeg">
+          <button class="seg-btn active" data-filter="all">All</button>
+          <button class="seg-btn" data-filter="open">Open</button>
+          <button class="seg-btn" data-filter="done">Done</button>
+        </div>
+      </div>
+
+      <ul class="task-list" id="taskList"></ul>
+      <p class="empty-state" id="taskEmpty">No tasks yet. What's on your plate?</p>
+    </section>
+
+    <!-- TIMETABLE -->
+    <section class="sheet" id="timetable">
+      <header class="sheet-head">
+        <p class="eyebrow">IV — Weekly rhythm</p>
+        <h1>Timetable</h1>
+      </header>
+      <p class="hint" style="margin-bottom:16px">Click any cell to name what happens there. Leave blank to clear it.</p>
+      <div class="table-wrap">
+        <table class="timetable" id="timetableGrid"></table>
+      </div>
+    </section>
+
+    <!-- FOCUS TIMER -->
+    <section class="sheet" id="timer">
+      <header class="sheet-head">
+        <p class="eyebrow">V — Deep work</p>
+        <h1>Focus timer</h1>
+      </header>
+
+      <div class="timer-layout">
+        <div class="ring-wrap">
+          <svg viewBox="0 0 240 240" class="ring-svg" shape-rendering="crispEdges">
+            <!-- side wings -->
+            <polygon class="watch-wing" points="12,58 40,30 66,56 46,88"></polygon>
+            <polygon class="watch-wing" points="228,58 200,30 174,56 194,88"></polygon>
+            <!-- crown -->
+            <rect class="watch-crown-post" x="104" y="16" width="32" height="20"></rect>
+            <rect class="watch-crown" x="96" y="0" width="48" height="22"></rect>
+            <rect class="watch-crown-line" x="104" y="2" width="4" height="18"></rect>
+            <rect class="watch-crown-line" x="112" y="2" width="4" height="18"></rect>
+            <rect class="watch-crown-line" x="120" y="2" width="4" height="18"></rect>
+            <rect class="watch-crown-line" x="128" y="2" width="4" height="18"></rect>
+            <!-- outer bezel (pixel-stepped ring) -->
+            <polygon class="watch-bezel" points="186,42 192,42 192,48 198,48 198,54 204,54 204,60 210,60 210,66 210,72 216,72 216,78 216,84 222,84 222,90 222,96 222,102 222,108 228,108 228,114 228,120 228,126 228,132 222,132 222,138 222,144 222,150 222,156 216,156 216,162 216,168 210,168 210,174 210,180 204,180 204,186 198,186 198,192 192,192 192,198 186,198 186,204 180,204 180,210 174,210 168,210 168,216 162,216 156,216 156,222 150,222 144,222 138,222 132,222 132,228 126,228 120,228 114,228 108,228 108,222 102,222 96,222 90,222 84,222 84,216 78,216 72,216 72,210 66,210 60,210 60,204 54,204 54,198 48,198 48,192 42,192 42,186 36,186 36,180 30,180 30,174 30,168 24,168 24,162 24,156 18,156 18,150 18,144 18,138 18,132 12,132 12,126 12,120 12,114 12,108 18,108 18,102 18,96 18,90 18,84 24,84 24,78 24,72 30,72 30,66 30,60 36,60 36,54 42,54 42,48 48,48 48,42 54,42 54,36 60,36 60,30 66,30 72,30 72,24 78,24 84,24 84,18 90,18 96,18 102,18 108,18 108,12 114,12 120,12 126,12 132,12 132,18 138,18 144,18 150,18 156,18 156,24 162,24 168,24 168,30 174,30 180,30 180,36 186,36"></polygon>
+            <!-- face -->
+            <polygon class="watch-face" points="120,36 126,36 132,36 138,36 144,36 144,42 150,42 156,42 156,48 162,48 168,48 168,54 174,54 174,60 180,60 180,66 186,66 186,72 192,72 192,78 192,84 198,84 198,90 198,96 204,96 204,102 204,108 204,114 204,120 204,126 204,132 204,138 204,144 198,144 198,150 198,156 192,156 192,162 192,168 186,168 186,174 180,174 180,180 174,180 174,186 168,186 168,192 162,192 156,192 156,198 150,198 144,198 144,204 138,204 132,204 126,204 120,204 114,204 108,204 102,204 96,204 96,198 90,198 84,198 84,192 78,192 72,192 72,186 66,186 66,180 60,180 60,174 54,174 54,168 48,168 48,162 48,156 42,156 42,150 42,144 36,144 36,138 36,132 36,126 36,120 36,114 36,108 36,102 36,96 42,96 42,90 42,84 48,84 48,78 48,72 54,72 54,66 60,66 60,60 66,60 66,54 72,54 72,48 78,48 84,48 84,42 90,42 96,42 96,36 102,36 108,36 114,36"></polygon>
+
+            <!-- tick marks -->
+            <rect class="watch-tick watch-tick--big" x="112" y="46" width="16" height="16"></rect>
+            <rect class="watch-tick watch-tick--big" x="112" y="178" width="16" height="16"></rect>
+            <rect class="watch-tick watch-tick--big" x="46" y="112" width="16" height="16"></rect>
+            <rect class="watch-tick watch-tick--big" x="178" y="112" width="16" height="16"></rect>
+            <rect class="watch-tick" x="70" y="62" width="12" height="12"></rect>
+            <rect class="watch-tick" x="158" y="62" width="12" height="12"></rect>
+            <rect class="watch-tick" x="70" y="166" width="12" height="12"></rect>
+            <rect class="watch-tick" x="158" y="166" width="12" height="12"></rect>
+            <rect class="watch-tick" x="58" y="90" width="10" height="10"></rect>
+            <rect class="watch-tick" x="172" y="90" width="10" height="10"></rect>
+            <rect class="watch-tick" x="58" y="140" width="10" height="10"></rect>
+            <rect class="watch-tick" x="172" y="140" width="10" height="10"></rect>
+
+            <!-- decorative sub-dial -->
+            <polygon class="watch-subdial" points="131,99 131,103 131,107 135,107 135,111 135,115 139,115 143,115 143,119 147,119 151,119 155,119 159,119 163,119 167,119 167,115 171,115 175,115 175,111 175,107 179,107 179,103 179,99 179,95 179,91 179,87 179,83 175,83 175,79 175,75 171,75 167,75 167,71 163,71 159,71 155,71 151,71 147,71 143,71 143,75 139,75 135,75 135,79 135,83 131,83 131,87 131,91 131,95"></polygon>
+            <rect class="watch-subdial-mark" id="watchSubdialMark" x="153" y="76" width="6" height="6"></rect>
+
+            <!-- rotating hand -->
+            <g id="timerHand" class="watch-hand">
+              <rect class="watch-hand-shadow" x="116" y="60" width="10" height="60"></rect>
+              <rect class="watch-hand-main" x="112" y="60" width="10" height="60"></rect>
+              <rect class="watch-hand-pivot" x="108" y="108" width="24" height="24"></rect>
+              <rect class="watch-hand-pivot-core" x="114" y="114" width="12" height="12"></rect>
+            </g>
+          </svg>
+          <div class="ring-center">
+            <span class="ring-time" id="timerDisplay">25:00</span>
+            <span class="ring-mode" id="timerMode">Focus</span>
+          </div>
+        </div>
+
+        <div class="timer-controls">
+          <div class="mode-seg" id="modeSeg">
+            <button class="seg-btn active" data-mode="focus">Focus</button>
+            <button class="seg-btn" data-mode="short">Short break</button>
+            <button class="seg-btn" data-mode="long">Long break</button>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn primary big" id="timerToggle">Start</button>
+            <button class="btn ghost" id="timerReset">Reset</button>
+          </div>
+
+          <div class="length-row">
+            <label>Focus <input type="number" id="lenFocus" class="text-input num-input" value="25" min="1" max="180"> min</label>
+            <label>Short break <input type="number" id="lenShort" class="text-input num-input" value="5" min="1" max="60"> min</label>
+            <label>Long break <input type="number" id="lenLong" class="text-input num-input" value="15" min="1" max="90"> min</label>
+          </div>
+
+          <p class="session-count">Sessions completed today: <strong id="sessionCount">0</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODO -->
+    <section class="sheet" id="todo">
+      <header class="sheet-head">
+        <p class="eyebrow">VI — Quick list</p>
+        <h1>To-do</h1>
+      </header>
+
+      <form class="inline-form" id="todoForm">
+        <input type="text" id="todoInput" class="text-input" placeholder="Add a quick to-do…" required>
+        <button type="submit" class="btn primary">Add</button>
+      </form>
+
+      <ul class="todo-list" id="todoList"></ul>
+      <p class="empty-state" id="todoEmpty">Nothing on the list. Add something small.</p>
+    </section>
+
+  </main>
+</div>
+
+<!-- FILE PREVIEW MODAL -->
+<div class="file-modal" id="fileModal">
+  <div class="file-modal-card">
+    <div class="file-modal-head">
+      <span class="file-modal-name" id="fileModalName"></span>
+      <button type="button" class="file-modal-close" id="fileModalClose" aria-label="Close preview">✕</button>
+    </div>
+    <div class="file-modal-body" id="fileModalBody"></div>
+    <div class="file-modal-foot">
+      <a class="btn primary small" id="fileModalDownload" download>Download</a>
+      <button type="button" class="btn ghost small" id="fileModalCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
